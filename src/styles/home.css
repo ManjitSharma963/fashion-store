@@ -3,10 +3,16 @@ section {
 }
 
 .categories h2,
-.featured-products h2,
 .other-products h2 {
   text-align: center;
   margin-bottom: 16px;
   font-size: 24px;
   color: #374151;
+}
+
+.featured-products h2 {
+  text-align: center; /* Center the heading */
+  font-size: 24px; /* Adjust font size for better visibility */
+  margin-bottom: 16px; /* Add spacing below the heading */
+  color: #374151; /* Neutral text color */
 }

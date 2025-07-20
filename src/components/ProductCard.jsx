@@ -12,7 +12,6 @@ const ProductCard = ({ product }) => {
           alt={product.name || "No Image Available"}
           className="product-image"
         />
-        {product.isNew && <span className="badge new">New</span>}
         {product.isOnSale && <span className="badge sale">Sale</span>}
       </div>
       <div className="product-details">
@@ -27,11 +26,24 @@ const ProductCard = ({ product }) => {
             product.price || "Price Not Available"
           )}
         </p>
-      </div>
-      <div className="product-actions">
-        <button disabled={!product.name}>Add to Cart</button>
-        <button className="wishlist-btn">♡</button>
-        <button className="compare-btn">⇄</button>
+        <div className="product-options">
+          <div className="color-options">
+            {product.colors.map((color, index) => (
+              <span
+                key={index}
+                className="color-circle"
+                style={{ backgroundColor: color }}
+              ></span>
+            ))}
+          </div>
+          <div className="size-options">
+            {product.sizes.map((size, index) => (
+              <span key={index} className="size-circle">
+                {size}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
