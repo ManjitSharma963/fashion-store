@@ -2,7 +2,8 @@ import React from "react";
 import { FaShoppingCart, FaSearch, FaUser } from "react-icons/fa";
 import "../styles/header.css";
 
-const Header = () => {
+const Header = ({ onCartClick, cartCount = 0, cartTotal = 0 }) => {
+  const displayTotal = isNaN(cartTotal) ? '0.00' : cartTotal.toFixed(2);
   return (
     <header className="modern-header">
       <div className="navbar">
@@ -32,9 +33,14 @@ const Header = () => {
           <a href="#search">
             <FaSearch />
           </a>
-          <a href="#cart">
-            <FaShoppingCart /> $420 (10)
-          </a>
+          <button className="cart-icon-btn" onClick={onCartClick} style={{ background: "none", border: "none", cursor: "pointer", position: "relative" }}>
+            <FaShoppingCart />
+            {cartCount > 0 && (
+              <span style={{ marginLeft: 6, fontWeight: 600, color: "#ef4444", fontSize: 14 }}>
+                ${displayTotal} ({cartCount})
+              </span>
+            )}
+          </button>
           <a href="#profile">
             <FaUser />
           </a>

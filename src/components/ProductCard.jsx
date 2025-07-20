@@ -1,11 +1,22 @@
 import React from "react";
 import "../styles/productCard.css";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onProductClick }) => {
   const placeholderImage = "/images/placeholder.jpg"; // Fallback image
 
+  const handleClick = () => {
+    if (onProductClick) {
+      onProductClick(product);
+    } else {
+      // Default behavior - navigate to product detail page
+      console.log("Product clicked:", product.name);
+      // You can add navigation logic here when routing is implemented
+      // window.location.href = `/product/${product.id}`;
+    }
+  };
+
   return (
-    <div className="product-card">
+    <div className="product-card" onClick={handleClick}>
       <div className="product-image-container">
         <img
           src={product.image || placeholderImage}

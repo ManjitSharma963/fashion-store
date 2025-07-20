@@ -1,9 +1,18 @@
 .category-card {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 16px;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer; /* Add cursor pointer to indicate clickable */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+  position: relative; /* For hover effects */
+}
+
+/* Hover effects for the entire card */
+.category-card:hover {
+  transform: translateY(-4px); /* Slight lift effect */
+}
+
+/* Hover effect for the image */
+.category-card:hover .category-image {
+  transform: scale(1.05); /* Slight zoom effect on image */
 }
 
 .category-image {
@@ -11,13 +20,15 @@
   height: auto;
   border-radius: 8px;
   margin-bottom: 16px;
+  transition: transform 0.3s ease; /* Smooth transition for image zoom */
 }
 
 .category-card h3 {
   font-size: 18px;
   margin-bottom: 8px;
+  transition: color 0.3s ease; /* Smooth transition for text color */
 }
 
-.category-card p {
-  color: #4b5563;
+.category-card:hover h3 {
+  color: #3b82f6; /* Change text color on hover */
 }

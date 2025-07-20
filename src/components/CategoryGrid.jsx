@@ -1,18 +1,16 @@
 import React from "react";
+import CategoryCard from "./CategoryCard";
 import "../styles/categoryGrid.css";
 
-const CategoryGrid = ({ categories }) => {
+const CategoryGrid = ({ categories, onCategoryClick }) => {
   return (
     <div className="category-grid">
       {categories.map((category) => (
-        <div key={category.id} className="category-card">
-          <img
-            src={category.image || "/images/placeholder.jpg"}
-            alt={category.name || "No Image Available"}
-            className="category-image"
-          />
-          <h3>{category.name || "No Name Available"}</h3>
-        </div>
+        <CategoryCard 
+          key={category.id} 
+          category={category} 
+          onCategoryClick={onCategoryClick}
+        />
       ))}
     </div>
   );
