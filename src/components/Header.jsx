@@ -1,34 +1,16 @@
 import React from "react";
-import { FaFacebookF, FaTwitter, FaInstagram, FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaSearch, FaUser } from "react-icons/fa";
 import "../styles/header.css";
 
 const Header = () => {
   return (
-    <header>
-      {/* Top Bar */}
-      <div className="top-bar">
-        <div className="notification">
-          Free Shipping Worldwide for all orders over $199{" "}
-          <a href="#shop-now">Shop Now</a>
-        </div>
-        <div className="top-links">
-          <a href="#about-us">About Us</a>
-          <a href="#blog">Blog</a>
-          <a href="#contact-us">Contact Us</a>
-          <a href="#faq">FAQs</a>
-        </div>
-      </div>
-
-      {/* Navigation Bar */}
+    <header className="modern-header">
       <div className="navbar">
         <div className="logo">
-          <h1>Fashion Store</h1>
+          <h1>Quicky</h1>
         </div>
         <nav className="nav-links">
           <ul>
-            <li>
-              <a href="#categories">Shop by Categories</a>
-            </li>
             <li>
               <a href="#home">Home</a>
             </li>
@@ -36,19 +18,25 @@ const Header = () => {
               <a href="#shop">Shop</a>
             </li>
             <li>
-              <a href="#products">Products</a>
+              <a href="#pages">Pages</a>
             </li>
             <li>
-              <a href="#deals">Top Deals</a>
+              <a href="#blog">Blog</a>
             </li>
             <li>
-              <a href="#offers">Best Offers</a>
+              <a href="#contact">Contact</a>
             </li>
           </ul>
         </nav>
         <div className="nav-icons">
+          <a href="#search">
+            <FaSearch />
+          </a>
           <a href="#cart">
-            <FaShoppingCart /> My Cart
+            <FaShoppingCart /> $420 (10)
+          </a>
+          <a href="#profile">
+            <FaUser />
           </a>
         </div>
       </div>
