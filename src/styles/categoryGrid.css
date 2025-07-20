@@ -1,0 +1,46 @@
+.categories {
+  text-align: center; /* Center the header */
+  margin: 32px 0;
+}
+
+.categories h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.category-grid {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 32px 0;
+}
+
+.category-card {
+  text-align: center;
+}
+
+.category-card img {
+  width: 120px; /* Fixed width */
+  height: 120px; /* Fixed height */
+  border-radius: 50%; /* Circular shape */
+  object-fit: cover; /* Ensures the image fills the circle */
+  margin-bottom: 8px;
+}
+
+.category-card h3 {
+  font-size: 16px;
+  color: #374151;
+}
+
+.category-card p {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.category-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
