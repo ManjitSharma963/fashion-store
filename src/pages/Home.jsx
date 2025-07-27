@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import HeroBanner from "../components/HeroBanner";
 import CategoryGrid from "../components/CategoryGrid";
@@ -11,13 +10,25 @@ import { categories } from "../data/categories";
 
 const mockCartItems = [];
 
+const getCategoryMatch = (product, category) => {
+  // Try to match by image or by name substring (case-insensitive)
+  if (!category) return true;
+  const catName = category.name.toLowerCase();
+  const prodName = product.name.toLowerCase();
+  // Try to match by product image path containing category image filename
+  if (product.image && category.image && product.image.toLowerCase().includes(category.image.split('/').pop().toLowerCase().split('.')[0])) {
+    return true;
+  }
+  // Fallback: match by name
+  return prodName.includes(catName) || catName.includes(prodName);
+};
+
 const Home = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showCartModal, setShowCartModal] = useState(false);
   const [cartItems, setCartItems] = useState(mockCartItems);
-  const featuredProducts = products.filter((product) => product.isFeatured);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0);
   let cartTotal = cartItems.reduce((sum, item) => sum + Number(item.price) * item.qty, 0);
   if (isNaN(cartTotal)) cartTotal = 0;
 
@@ -26,15 +37,16 @@ const Home = () => {
   };
 
   const handleCategoryClick = (category) => {
-    alert(`You clicked on: ${category.name}\nItems available: ${category.count}`);
+    setSelectedCategory(category);
   };
+
+  const clearCategoryFilter = () => setSelectedCategory(null);
 
   const closeProductModal = () => {
     setSelectedProduct(null);
   };
 
   // Cart modal handlers
-  const openCartModal = () => setShowCartModal(true);
   const closeCartModal = () => setShowCartModal(false);
   const handleQtyChange = (id, qty) => {
     setCartItems(items => items.map(item => item.id === id ? { ...item, qty: Math.max(1, qty) } : item));
@@ -68,13 +80,13 @@ const Home = () => {
     closeProductModal();
   };
 
+  // Filter products by selected category
+  const filteredProducts = selectedCategory
+    ? products.filter(product => getCategoryMatch(product, selectedCategory))
+    : products.filter(product => product.isFeatured);
+
   return (
     <div>
-      <Header 
-        onCartClick={openCartModal} 
-        cartCount={cartCount}
-        cartTotal={cartTotal}
-      />
       <HeroBanner />
       <section id="categories" className="categories">
         <h2>Categories</h2>
@@ -84,9 +96,20 @@ const Home = () => {
         />
       </section>
       <section id="featured-products" className="featured-products">
-        <h2>Featured Products</h2>
+        <h2>
+          {selectedCategory ? (
+            <>
+              {selectedCategory.name} Products
+              <button style={{ marginLeft: 16, fontSize: 13, padding: '2px 10px', borderRadius: 8, border: 'none', background: '#eee', cursor: 'pointer' }} onClick={clearCategoryFilter}>
+                Show All
+              </button>
+            </>
+          ) : (
+            "Featured Products"
+          )}
+        </h2>
         <ProductGrid 
-          products={featuredProducts} 
+          products={filteredProducts} 
           onProductClick={handleProductClick}
         />
       </section>

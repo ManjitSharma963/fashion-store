@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaShoppingCart, FaSearch, FaUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import ProfileSidebar from "./ProfileSidebar";
 import "../styles/header.css";
 
-const Header = ({ onCartClick, cartCount = 0, cartTotal = 0 }) => {
+const Header = ({ onCartClick, cartCount = 0, cartTotal = 0, user, onLoginClick, onSignupClick }) => {
   const displayTotal = isNaN(cartTotal) ? '0.00' : cartTotal.toFixed(2);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <header className="modern-header">
       <div className="navbar">
@@ -13,7 +17,7 @@ const Header = ({ onCartClick, cartCount = 0, cartTotal = 0 }) => {
         <nav className="nav-links">
           <ul>
             <li>
-              <a href="#home">Home</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
               <a href="#shop">Shop</a>
@@ -41,9 +45,16 @@ const Header = ({ onCartClick, cartCount = 0, cartTotal = 0 }) => {
               </span>
             )}
           </button>
-          <a href="#profile">
+          {/* Removed Login and Signup buttons from here */}
+          <button
+            className="profile-btn"
+            style={{ background: "none", border: "none", cursor: "pointer", marginLeft: 8 }}
+            onClick={() => setSidebarOpen(true)}
+            aria-label="User menu"
+          >
             <FaUser />
-          </a>
+          </button>
+          <ProfileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} user={user} onAuthClick={onLoginClick} />
         </div>
       </div>
     </header>
