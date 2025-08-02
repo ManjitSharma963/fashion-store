@@ -4,14 +4,30 @@ import "../styles/categoryGrid.css";
 
 const CategoryGrid = ({ categories, onCategoryClick }) => {
   return (
-    <div className="category-grid">
-      {categories.map((category) => (
-        <CategoryCard 
-          key={category.id} 
-          category={category} 
-          onCategoryClick={onCategoryClick}
-        />
-      ))}
+    <div className="container">
+      <div className="section-header">
+        <p className="categories-subtitle">
+          Explore our carefully curated categories designed to match your lifestyle and preferences
+        </p>
+      </div>
+      <div className="category-grid">
+        {categories.map((category, index) => (
+          <CategoryCard 
+            key={category.id} 
+            category={category} 
+            onCategoryClick={onCategoryClick}
+            featured={index === 0}
+          />
+        ))}
+      </div>
+      <div className="view-all-categories">
+        <a href="#all-categories" className="view-all-btn">
+          View All Categories
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
     </div>
   );
 };

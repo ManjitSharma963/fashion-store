@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaShoppingCart, FaSearch, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import ProfileSidebar from "./ProfileSidebar";
@@ -7,13 +7,39 @@ import "../styles/header.css";
 const Header = ({ onCartClick, cartCount = 0, cartTotal = 0, user, onLoginClick, onSignupClick }) => {
   const displayTotal = isNaN(cartTotal) ? '0.00' : cartTotal.toFixed(2);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className="modern-header">
+    <>
+      <div className="announcement-bar">
+        <div className="container">
+          🎉 Free shipping on orders over $50! <a href="#sale">Shop Sale Items</a>
+        </div>
+      </div>
+      <header className={`modern-header ${scrolled ? 'scrolled' : ''}`}>
       <div className="navbar">
         <div className="logo">
           <h1>Quicky</h1>
         </div>
+        
+        <button 
+          className={`mobile-menu-toggle ${mobileMenuOpen ? 'active' : ''}`}
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        
         <nav className="nav-links">
           <ul>
             <li>
@@ -33,19 +59,31 @@ const Header = ({ onCartClick, cartCount = 0, cartTotal = 0, user, onLoginClick,
             </li>
           </ul>
         </nav>
+        
         <div className="nav-icons">
-          <a href="#search">
+          <div className="search-container">
+            <FaSearch className="search-icon" />
+            <input 
+              type="text" 
+              placeholder="Search products..." 
+              className="search-input"
+            />
+          </div>
+          
+          <button className="nav-icon-btn" aria-label="Search">
             <FaSearch />
-          </a>
+          </button>
+          
           <button className="cart-icon-btn" onClick={onCartClick} style={{ background: "none", border: "none", cursor: "pointer", position: "relative" }}>
             <FaShoppingCart />
             {cartCount > 0 && (
-              <span style={{ marginLeft: 6, fontWeight: 600, color: "#ef4444", fontSize: 14 }}>
-                ${displayTotal} ({cartCount})
+              <span className="cart-info">
+                <span className="cart-count">{cartCount}</span>
+                <span className="cart-total">${displayTotal}</span>
               </span>
             )}
           </button>
-          {/* Removed Login and Signup buttons from here */}
+          
           <button
             className="profile-btn"
             style={{ background: "none", border: "none", cursor: "pointer", marginLeft: 8 }}
@@ -54,10 +92,27 @@ const Header = ({ onCartClick, cartCount = 0, cartTotal = 0, user, onLoginClick,
           >
             <FaUser />
           </button>
-          <ProfileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} user={user} onAuthClick={onLoginClick} />
+        </div>
+        
+        <div className={`mobile-nav ${mobileMenuOpen ? 'active' : ''}`}>
+          <ul>
+            <li><Link to="/" onClick={() => setMobileMenuOpen(false)}>Home</Link></li>
+            <li><a href="#shop" onClick={() => setMobileMenuOpen(false)}>Shop</a></li>
+            <li><a href="#pages" onClick={() => setMobileMenuOpen(false)}>Pages</a></li>
+            <li><a href="#blog" onClick={() => setMobileMenuOpen(false)}>Blog</a></li>
+            <li><a href="#contact" onClick={() => setMobileMenuOpen(false)}>Contact</a></li>
+          </ul>
         </div>
       </div>
-    </header>
+      </header>
+      
+      <ProfileSidebar 
+        open={sidebarOpen} 
+        onClose={() => setSidebarOpen(false)} 
+        user={user} 
+        onAuthClick={onLoginClick} 
+      />
+    </>
   );
 };
 

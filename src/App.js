@@ -6,6 +6,7 @@ import Profile from "./pages/Profile";
 import User from "./pages/User";
 import SignOut from "./pages/SignOut";
 import Orders from "./pages/Orders";
+import "./styles/global.css";
 import "./styles/auth.css";
 import Header from "./components/Header";
 import AuthModal from "./components/AuthModal";
