@@ -10,12 +10,48 @@ const LockIcon = () => (
   </svg>
 );
 
-const AuthModal = ({ open, onClose, initialForm = "login" }) => {
+const AuthModal = ({ open, onClose, initialForm = "login", onLogin, onSignup }) => {
   const [form, setForm] = useState(initialForm);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
 
   useEffect(() => {
     setForm(initialForm);
   }, [initialForm, open]);
+
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if (form === "login") {
+      // Simulate login
+      const userData = {
+        id: 1,
+        name: formData.email.split('@')[0],
+        email: formData.email
+      };
+      onLogin(userData);
+      onClose();
+    } else {
+      // Simulate signup
+      const userData = {
+        id: 1,
+        name: formData.name,
+        email: formData.email
+      };
+      onSignup(userData);
+      onClose();
+    }
+  };
 
   if (!open) return null;
 
@@ -24,20 +60,44 @@ const AuthModal = ({ open, onClose, initialForm = "login" }) => {
       <div className="auth-glass-modal">
         <div className="auth-glass-left">
           <h2>{form === "login" ? "LOGIN" : "SIGN UP"}</h2>
-          <form className="auth-glass-form">
+          <form className="auth-glass-form" onSubmit={handleSubmit}>
             {form === "signup" && (
-              <>
-                <input id="name" type="text" placeholder="Enter your name" className="auth-glass-input" required />
-              </>
+              <input 
+                id="name" 
+                type="text" 
+                placeholder="Enter your name" 
+                className="auth-glass-input" 
+                value={formData.name}
+                onChange={handleInputChange}
+                required 
+              />
             )}
-            <input id="email" type="email" placeholder={form === "login" ? "Enter your username" : "Enter your email"} className="auth-glass-input" required />
-            <input id="password" type="password" placeholder="Enter your password" className="auth-glass-input" required />
-            <button type="submit" className="auth-glass-btn">{form === "login" ? "SIGN IN" : "SIGN UP"}</button>
+            <input 
+              id="email" 
+              type="email" 
+              placeholder={form === "login" ? "Enter your username" : "Enter your email"} 
+              className="auth-glass-input" 
+              value={formData.email}
+              onChange={handleInputChange}
+              required 
+            />
+            <input 
+              id="password" 
+              type="password" 
+              placeholder="Enter your password" 
+              className="auth-glass-input" 
+              value={formData.password}
+              onChange={handleInputChange}
+              required 
+            />
+            <button type="submit" className="auth-glass-btn">
+              {form === "login" ? "SIGN IN" : "SIGN UP"}
+            </button>
           </form>
           <div className="auth-glass-switch">
             {form === "login" ? (
               <>
-                Don’t have an account?{' '}
+                Don't have an account?{' '}
                 <span className="auth-glass-link" onClick={() => setForm("signup")}>Sign Up</span>
               </>
             ) : (
