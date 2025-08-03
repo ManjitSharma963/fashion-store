@@ -28,6 +28,7 @@ const Home = () => {
   const [showCartModal, setShowCartModal] = useState(false);
   const [cartItems, setCartItems] = useState(mockCartItems);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [wishlistItems, setWishlistItems] = useState([]);
 
   let cartTotal = cartItems.reduce((sum, item) => sum + Number(item.price) * item.qty, 0);
   if (isNaN(cartTotal)) cartTotal = 0;
@@ -38,6 +39,10 @@ const Home = () => {
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
+    // Smooth scroll to products section
+    document.getElementById('featured-products')?.scrollIntoView({ 
+      behavior: 'smooth' 
+    });
   };
 
   const clearCategoryFilter = () => setSelectedCategory(null);
@@ -76,8 +81,38 @@ const Home = () => {
         return [...items, cartItem];
       }
     });
-    alert("Product added to cart!");
+    // Show success notification instead of alert
+    const notification = document.createElement('div');
+    notification.textContent = 'Product added to cart!';
+    notification.style.cssText = `
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background: #10b981;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      z-index: 10000;
+      animation: slideIn 0.3s ease-out;
+    `;
+    document.body.appendChild(notification);
+    setTimeout(() => {
+      notification.remove();
+    }, 3000);
     closeProductModal();
+  };
+
+  // Add to wishlist handler
+  const handleAddToWishlist = (product) => {
+    setWishlistItems(items => {
+      const exists = items.find(item => item.id === product.id);
+      if (exists) {
+        return items.filter(item => item.id !== product.id);
+      } else {
+        return [...items, product];
+      }
+    });
   };
 
   // Filter products by selected category
@@ -86,34 +121,23 @@ const Home = () => {
     : products.filter(product => product.isFeatured);
 
   return (
-    <div>
+    <main id="main-content">
       <HeroBanner />
-      <section id="categories" className="categories">
-        <h2>Categories</h2>
-        <CategoryGrid 
-          categories={categories} 
-          onCategoryClick={handleCategoryClick}
-        />
-      </section>
-      <section id="featured-products" className="featured-products">
-        <h2>
-          {selectedCategory ? (
-            <>
-              {selectedCategory.name} Products
-              <button style={{ marginLeft: 16, fontSize: 13, padding: '2px 10px', borderRadius: 8, border: 'none', background: '#eee', cursor: 'pointer' }} onClick={clearCategoryFilter}>
-                Show All
-              </button>
-            </>
-          ) : (
-            "Featured Products"
-          )}
-        </h2>
-        <ProductGrid 
-          products={filteredProducts} 
-          onProductClick={handleProductClick}
-        />
-      </section>
+      
+      <CategoryGrid 
+        categories={categories} 
+        onCategoryClick={handleCategoryClick}
+      />
+      
+      <ProductGrid 
+        products={filteredProducts} 
+        onProductClick={handleProductClick}
+        selectedCategory={selectedCategory}
+        onClearFilter={clearCategoryFilter}
+      />
+      
       <Footer />
+      
       {/* Product Detail Modal */}
       {selectedProduct && (
         <ProductDetailModal 
@@ -121,8 +145,11 @@ const Home = () => {
           onClose={closeProductModal}
           onProductClick={handleProductClick}
           onAddToCart={handleAddToCart}
+          onAddToWishlist={handleAddToWishlist}
+          isWishlisted={wishlistItems.some(item => item.id === selectedProduct.id)}
         />
       )}
+      
       {/* Cart Modal */}
       {showCartModal && (
         <CartModal
@@ -133,7 +160,7 @@ const Home = () => {
           onCheckout={handleCheckout}
         />
       )}
-    </div>
+    </main>
   );
 };
 

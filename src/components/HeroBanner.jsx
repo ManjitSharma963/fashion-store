@@ -7,44 +7,52 @@ const HeroBanner = () => {
       <div className="container">
         <div className="hero-content">
           <h1>
-            Limited Edition For <span className="highlight">Queen Styles</span> Fashion
+            Discover Your <span className="highlight">Perfect Style</span> Today
           </h1>
-          <p>Discover awesome products crafted for the dynamic urban lifestyle. Express your unique style with our curated collection.</p>
+          <p>Explore our premium collection of fashion-forward pieces designed for the modern lifestyle. From timeless classics to trending styles, find everything you need to express your unique personality.</p>
           <div className="hero-actions">
-            <button className="shop-now-btn">
+            <a href="#featured-products" className="shop-now-btn">
               Shop Now
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
-            </button>
+            </a>
             <a href="#categories" className="learn-more-btn">
               Explore Categories
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M8 12h8M12 8v8"/>
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
               </svg>
             </a>
           </div>
           <div className="hero-stats">
             <div className="stat-item">
-              <span className="stat-number">10K+</span>
+              <span className="stat-number">25K+</span>
               <span className="stat-label">Happy Customers</span>
             </div>
             <div className="stat-item">
-              <span className="stat-number">500+</span>
+              <span className="stat-number">1000+</span>
               <span className="stat-label">Products</span>
             </div>
             <div className="stat-item">
-              <span className="stat-number">50+</span>
+              <span className="stat-number">100+</span>
               <span className="stat-label">Brands</span>
             </div>
           </div>
           <div className="trust-indicators">
-            <span className="trust-text">Trusted by leading brands</span>
+            <span className="trust-text">Trusted by fashion enthusiasts worldwide</span>
           </div>
         </div>
         <div className="hero-image">
           <img src="/image/hero.jpeg" alt="Fashion Banner" />
         </div>
+      </div>
+      <div className="scroll-indicator">
+        <span>Scroll to explore</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M7 13l3 3 7-7"/>
+          <path d="M12 17V7"/>
+        </svg>
       </div>
     </div>
   );
